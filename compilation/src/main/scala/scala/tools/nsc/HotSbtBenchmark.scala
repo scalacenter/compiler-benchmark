@@ -62,7 +62,8 @@ class HotSbtBenchmark {
        |}""".stripMargin
 
   @Setup(Level.Trial) def spawn(): Unit = {
-    path = Paths.get(s"../integration-tests/integration-projects/$project")
+    val baseDirectoryFile = Paths.get(s"../frontend/target/integrations/$project/base-directory")
+    path = Paths.get(Files.readAllLines(baseDirectoryFile).get(0))
     cleanClassesPath = path.resolve("project").resolve("CleanClassesPlugin.scala")
     Files.write(cleanClassesPath, cleanClassesPlugin.getBytes("UTF-8"))
     val sbtLaucherPath = System.getProperty("sbt.launcher")

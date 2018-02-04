@@ -39,7 +39,9 @@ class ScalacBenchmark extends BenchmarkDriver {
 
   def sourceFiles: List[String] = {
     import scala.collection.JavaConverters._
-    val path = Paths.get(s"../integration-tests/integration-projects/$project/$projectName")
+    val baseDirectoryFile = Paths.get(s"../frontend/target/integrations/$project/base-directory")
+    val baseDirectory = Paths.get(Files.readAllLines(baseDirectoryFile).get(0))
+    val path = baseDirectory.resolve(projectName)
     val allFiles = Files.walk(path, FileVisitOption.FOLLOW_LINKS).collect(Collectors.toList[Path]).asScala.toList
     val files = allFiles.filter(f => {
       val name = f.getFileName.toString
