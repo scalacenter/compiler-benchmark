@@ -35,12 +35,13 @@ class ScalacBenchmark extends BenchmarkDriver {
 
   override def isResident = resident
 
+  private var base: Path = _
+
   var depsClasspath: String = _
 
   def sourceFiles: List[String] = {
     import scala.collection.JavaConverters._
-    val path = Paths.get(s"../integration-tests/integration-projects/$project/$projectName")
-    val allFiles = Files.walk(path, FileVisitOption.FOLLOW_LINKS).collect(Collectors.toList[Path]).asScala.toList
+    val allFiles = Files.walk(base, FileVisitOption.FOLLOW_LINKS).collect(Collectors.toList[Path]).asScala.toList
     val files = allFiles.filter(f => {
       val name = f.getFileName.toString
       name.endsWith(".scala") || name.endsWith(".java")
@@ -56,6 +57,7 @@ class ScalacBenchmark extends BenchmarkDriver {
     tempFile.delete()
     tempFile.mkdir()
     tempDir = tempFile
+    base = BloopReflect.getBloopConfigDir(project).getParent.resolve(projectName)
   }
   @TearDown(Level.Trial) def clearTemp(): Unit = {
     BenchmarkUtils.deleteRecursive(tempDir.toPath)
