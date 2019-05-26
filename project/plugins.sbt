@@ -13,6 +13,7 @@ val metaconfigCore = "com.geirsson" %% "metaconfig-core" % "0.6.0"
 val metaconfigConfig = "com.geirsson" %% "metaconfig-typesafe-config" % "0.6.0"
 val metaconfigDocs = "com.geirsson" %% "metaconfig-docs" % "0.6.0"
 val circeDerivation = "io.circe" %% "circe-derivation" % "0.9.0-M3"
+val circeParser = "io.circe" %% "circe-parser" % "0.9.0"
 // required for java9+
 val javaxActivation = "com.sun.activation" % "javax.activation" % "1.2.0"
 
@@ -38,5 +39,6 @@ libraryDependencies ++= List(
   metaconfigDocs,
   metaconfigConfig,
   circeDerivation,
+  circeParser,
   javaxActivation
 )
